@@ -1,4 +1,4 @@
-# ./python -m compiler --static aoc/day_4a.py
+# ./python -X jit -m compiler --static aoc/day_4a.py
 
 import __static__
 from __static__ import box, cbool, crange, int64
@@ -14,9 +14,9 @@ class Card:
     card_id: int64
     count: int64
 
-    def __repr__(self):
-        return f"Card({box(self.card_id)}, {self.winners}, {self.havers})"
-
+    def __init__(self, card_id: int64, count: int64) -> None:
+        self.card_id = card_id
+        self.count = count
 
 def run(example: cbool) -> None:
     with open("aoc/data/4ex.txt" if example else "aoc/data/4.txt") as f:
