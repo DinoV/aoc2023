@@ -12,8 +12,7 @@ from typing import List
 @dataclass
 class Card:
     card_id: int64
-    winners: set[int]
-    havers: set[int]
+    count: int64
 
     def __repr__(self):
         return f"Card({box(self.card_id)}, {self.winners}, {self.havers})"
@@ -32,7 +31,7 @@ def run(example: cbool) -> None:
         winners = {int(winner) for winner in winners_list.strip().split(" ") if winner}
         havers = {int(haver) for haver in havers_list.strip().split(" ") if haver}
 
-        card = Card(int64(card_id), winners, havers)
+        card = Card(int64(card_id), int64(len(winners.intersection(havers))))
         queue.append(card)
         cards.append(card)
 
@@ -42,8 +41,7 @@ def run(example: cbool) -> None:
 
         card = queue.popleft()
 
-        count = len(card.winners.intersection(card.havers))
-        for new_card_cnt in crange(int64(count)):
+        for new_card_cnt in crange(card.count):
             queue.append(cards[card.card_id + new_card_cnt + 1])
 
     print(box(card_count))
