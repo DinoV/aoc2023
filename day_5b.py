@@ -83,7 +83,7 @@ def run(example: cbool) -> None:
             ]
             seeds = Array[int64](len(seed_items) // 2)
             seeds_lens = Array[int64](len(seed_items) // 2)
-            for cur_seed in crange(clen(seed_items) / 2):
+            for cur_seed in crange(clen(seed_items) // 2):
                 seeds[cur_seed] = int64(seed_items[cur_seed * 2])
                 seeds_lens[cur_seed] = int64(seed_items[cur_seed * 2 + 1])
             i += 1
@@ -188,9 +188,9 @@ def run(example: cbool) -> None:
     i = 0
     src_ranges.sort()
     while i < clen(seeds):
-        seed_iter: int64
         elm: Range | None = None
-        for seed_iter in crange(seeds[i], seeds[i] + seeds_lens[i]):
+        seed_iter: int64 = seeds[i]
+        while seed_iter < seeds[i] + seeds_lens[i]:
             seed: int64 = seed_iter
 
             if elm is None:
@@ -215,6 +215,8 @@ def run(example: cbool) -> None:
 
             if seed < min_seed:
                 min_seed = seed
+
+            seed_iter += 1
 
         i += 1
 
